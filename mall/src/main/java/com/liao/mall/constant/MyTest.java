@@ -6,7 +6,7 @@ public class MyTest {
         String s = category.name();
         System.out.println(s);
 
-        System s2 = "CAR";
+        String s2 = "CAR";
         ProductCategory category2 = ProductCategory.valueOf(s2);
     }
 }
