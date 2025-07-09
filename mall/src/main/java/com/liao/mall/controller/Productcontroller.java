@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -36,5 +33,20 @@ public class Productcontroller {
         Product product = productService.getProductById(productid);
 
                 return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+
+
+    @PutMapping("/product/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Integer id,
+                                                 @RequestBody @Valid ProductRequest productRequest) {
+
+        Product product = productService.getProductById(id);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        productService.updateProduct(id,productRequest);
+        Product updateProduct = productService.getProductById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(updateProduct);
     }
 }
