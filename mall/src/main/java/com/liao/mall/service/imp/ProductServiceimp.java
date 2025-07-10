@@ -1,5 +1,6 @@
 package com.liao.mall.service.imp;
 
+import com.liao.mall.constant.ProductCategory;
 import com.liao.mall.dao.ProductDao;
 import com.liao.mall.dto.ProductRequest;
 import com.liao.mall.model.Product;
@@ -7,10 +8,17 @@ import com.liao.mall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ProductServiceimp implements ProductService {
     @Autowired
     private ProductDao productDao;
+
+    @Override
+    public List<Product> getProducts(ProductCategory category,String search) {
+        return productDao.getProducts(category,search);
+    }
 
     @Override
     public Product getProductById(Integer id) {

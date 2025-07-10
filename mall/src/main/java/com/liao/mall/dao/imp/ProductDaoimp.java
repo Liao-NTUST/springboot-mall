@@ -1,5 +1,6 @@
 package com.liao.mall.dao.imp;
 
+import com.liao.mall.constant.ProductCategory;
 import com.liao.mall.dao.ProductDao;
 import com.liao.mall.dto.ProductRequest;
 import com.liao.mall.model.Product;
@@ -20,6 +21,31 @@ import java.util.Map;
 public class ProductDaoimp implements ProductDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Override
+    public List<Product> getProducts(ProductCategory category,String search) {
+        String sql = "SELECT product_id,product_name,\n" +
+                "       category,\n" +
+                "       image_url,\n" +
+                "       price,\n" +
+                "       stock,\n" +
+                "       description,\n" +
+                "       create_date,\n" +
+                "       last_modified_date FROM product WHERE 1=1";
+        Map<String,Object> map = new HashMap<>();
+        if (category != null) {
+            sql += " AND category = :category";
+            map.put("category", category.name());
+        }
+        if (search != null) {
+            sql += " AND product_name LIKE :search";
+            map.put("search", "%"+search+"%");
+        }
+        List<Product> query = namedParameterJdbcTemplate.query(sql, map, new ProductRowmapper());
+
+        return query;
+    }
+
     @Override
     public Product getProductById(Integer id) {
         String sql = "SELECT product_id,product_name,\n" +
