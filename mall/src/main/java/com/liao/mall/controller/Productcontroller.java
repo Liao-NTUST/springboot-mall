@@ -1,6 +1,7 @@
 package com.liao.mall.controller;
 
 import com.liao.mall.constant.ProductCategory;
+import com.liao.mall.dto.ProductQueryParams;
 import com.liao.mall.dto.ProductRequest;
 import com.liao.mall.model.Product;
 import com.liao.mall.service.ProductService;
@@ -24,7 +25,10 @@ public class Productcontroller {
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search
     ) {
-        List<Product> productList = productService.getProducts(category,search);
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+        List<Product> productList = productService.getProducts(productQueryParams);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 

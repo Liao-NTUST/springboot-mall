@@ -2,6 +2,7 @@ package com.liao.mall.service.imp;
 
 import com.liao.mall.constant.ProductCategory;
 import com.liao.mall.dao.ProductDao;
+import com.liao.mall.dto.ProductQueryParams;
 import com.liao.mall.dto.ProductRequest;
 import com.liao.mall.model.Product;
 import com.liao.mall.service.ProductService;
@@ -16,8 +17,8 @@ public class ProductServiceimp implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts(ProductCategory category,String search) {
-        return productDao.getProducts(category,search);
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
+        return productDao.getProducts(productQueryParams);
     }
 
     @Override
