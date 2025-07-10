@@ -5,6 +5,7 @@ import com.liao.mall.dto.ProductQueryParams;
 import com.liao.mall.dto.ProductRequest;
 import com.liao.mall.model.Product;
 import com.liao.mall.service.ProductService;
+import com.liao.mall.utill.Page;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -25,7 +26,7 @@ public class Productcontroller {
     private ProductService productService;
 
     @GetMapping("/product")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search,
             @RequestParam(defaultValue = "create_date") String orderBy,
@@ -41,7 +42,16 @@ public class Productcontroller {
         productQueryParams.setOffset(offset);
         productQueryParams.setLimit(limit);
         List<Product> productList = productService.getProducts(productQueryParams);
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+
+        Integer total = productService.countProduct(productQueryParams);
+
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResults(productList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     @GetMapping("/product/{id}")
