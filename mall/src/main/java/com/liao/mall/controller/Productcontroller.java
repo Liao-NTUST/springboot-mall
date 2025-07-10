@@ -6,15 +6,19 @@ import com.liao.mall.dto.ProductRequest;
 import com.liao.mall.model.Product;
 import com.liao.mall.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
+@Validated
 @RestController
 public class Productcontroller {
     @Autowired
@@ -24,14 +28,18 @@ public class Productcontroller {
     public ResponseEntity<List<Product>> getProducts(
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search,
-            @RequestParam(defaultValue = "created_date") String orderBy,
-            @RequestParam(defaultValue = "desc") String sort
+            @RequestParam(defaultValue = "create_date") String orderBy,
+            @RequestParam(defaultValue = "desc") String sort,
+            @RequestParam(defaultValue = "5")  Integer limit,
+            @RequestParam(defaultValue = "0")  Integer offset
     ) {
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category);
         productQueryParams.setSearch(search);
         productQueryParams.setOrderBy(orderBy);
         productQueryParams.setSort(sort);
+        productQueryParams.setOffset(offset);
+        productQueryParams.setLimit(limit);
         List<Product> productList = productService.getProducts(productQueryParams);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
