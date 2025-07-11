@@ -2,6 +2,7 @@ package com.liao.mall.service.imp;
 
 import com.liao.mall.dao.UserDao;
 import com.liao.mall.dto.UserRegisterRequest;
+import com.liao.mall.dto.Userloginrequest;
 import com.liao.mall.model.User;
 import com.liao.mall.service.UserService;
 import org.slf4j.Logger;
@@ -32,5 +33,20 @@ public class UserServiceimp implements UserService {
     @Override
     public User getUserById(Integer userid) {
         return userDao.getUserById(userid);
+    }
+
+    @Override
+    public User login(Userloginrequest userloginrequest) {
+        User user = userDao.getUserByEmail(userloginrequest.getEmail());
+        if(user==null){
+            log.warn("該email {} 尚未註冊",userloginrequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        if(user.getPassword().equals(userloginrequest.getPassword())){
+            return user;
+        }else{
+            log.warn("密碼不正確");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }

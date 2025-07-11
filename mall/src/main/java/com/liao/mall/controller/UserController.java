@@ -1,6 +1,7 @@
 package com.liao.mall.controller;
 
 import com.liao.mall.dto.UserRegisterRequest;
+import com.liao.mall.dto.Userloginrequest;
 import com.liao.mall.model.User;
 import com.liao.mall.service.UserService;
 import jakarta.validation.Valid;
@@ -21,5 +22,11 @@ public class UserController {
         Integer userid = userService.register(userRegisterRequest);
         User user = userService.getUserById(userid);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+    @PostMapping("/user/login")
+    public ResponseEntity<User> login(@RequestBody @Valid Userloginrequest userloginrequest) {
+        User user = userService.login(userloginrequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
