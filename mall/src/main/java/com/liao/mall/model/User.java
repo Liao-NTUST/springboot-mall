@@ -1,10 +1,13 @@
 package com.liao.mall.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class User {
     private Integer userid;
     private String email;
+    @JsonIgnore
     private String password;
     private Date create_date;
     private Date last_modified_date;

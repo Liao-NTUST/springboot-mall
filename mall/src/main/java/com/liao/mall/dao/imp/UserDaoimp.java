@@ -54,4 +54,20 @@ public class UserDaoimp implements UserDao {
             return null;
         }
     }
+
+    @Override
+    public User getUserByEmail(String email) {
+        String sql = "SELECT user_id,email,\n" +
+                "       password,\n" +
+                "       create_date,\n" +
+                "       last_modified_date FROM user WHERE email =:email";
+        Map<String,Object> map = new HashMap<>();
+        map.put("email",email);
+        List<User> query = namedParameterJdbcTemplate.query(sql, map, new UserRowmapper());
+        if (query.size()>0){
+            return query.get(0);
+        }else {
+            return null;
+        }
+    }
 }

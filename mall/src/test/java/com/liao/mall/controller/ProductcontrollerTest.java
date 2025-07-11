@@ -41,7 +41,7 @@ public class ProductcontrollerTest {
         Product product = new Product();
     }
 
-    @Transactional
-    @Test
+//    @Transactional
+//    @Test
 
 }
