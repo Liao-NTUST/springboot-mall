@@ -1,6 +1,7 @@
 package com.liao.mall.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Order {
 
@@ -9,6 +10,8 @@ public class Order {
     private Integer totalAmount;
     private Date createdDate;
     private Date lastModifiedDate;
+
+    private List<Orderitem> orderItemList;
 
     public Integer getOrderId() {
         return orderId;
@@ -48,5 +51,13 @@ public class Order {
 
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public List<Orderitem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<Orderitem> orderItemList) {
+        this.orderItemList = orderItemList;
     }
 }

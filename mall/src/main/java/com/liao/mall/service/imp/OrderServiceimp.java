@@ -4,6 +4,7 @@ import com.liao.mall.dao.OrderDao;
 import com.liao.mall.dao.ProductDao;
 import com.liao.mall.dto.BuyItem;
 import com.liao.mall.dto.CreateOrderRequest;
+import com.liao.mall.model.Order;
 import com.liao.mall.model.Orderitem;
 import com.liao.mall.model.Product;
 import com.liao.mall.service.OrderService;
@@ -21,6 +22,17 @@ public class OrderServiceimp implements OrderService {
 
     @Autowired
     private ProductDao productDao;
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+
+        List<Orderitem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+
+        order.setOrderItemList(orderItemList);
+        return order;
+    }
+
 
     @Transactional
     @Override
@@ -51,6 +63,7 @@ public class OrderServiceimp implements OrderService {
 
         return orderId;
     }
+
 
 
 }
