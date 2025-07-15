@@ -5,6 +5,7 @@ import com.liao.mall.dao.ProductDao;
 import com.liao.mall.dao.UserDao;
 import com.liao.mall.dto.BuyItem;
 import com.liao.mall.dto.CreateOrderRequest;
+import com.liao.mall.dto.OrderQueryParams;
 import com.liao.mall.model.Order;
 import com.liao.mall.model.Orderitem;
 import com.liao.mall.model.Product;
@@ -44,6 +45,24 @@ public class OrderServiceimp implements OrderService {
         order.setOrderItemList(orderItemList);
         return order;
     }
+
+    @Override
+    public Integer countOrder(OrderQueryParams orderQueryParams) {
+        return orderDao.countOrder(orderQueryParams);
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+        List<Order> orderList = orderDao.getOrders(orderQueryParams);
+
+        for (Order order : orderList) {
+            List<Orderitem> orderItemList = orderDao.getOrderItemsByOrderId(order.getOrderId());
+            order.setOrderItemList(orderItemList);
+        }
+
+        return orderList;
+    }
+
 
 
     @Transactional

@@ -1,6 +1,7 @@
 package com.liao.mall.dao;
 
 import com.liao.mall.dto.CreateOrderRequest;
+import com.liao.mall.dto.OrderQueryParams;
 import com.liao.mall.model.Order;
 import com.liao.mall.model.Orderitem;
 
@@ -15,4 +16,8 @@ public interface OrderDao {
     Order getOrderById(Integer orderId);
 
     List<Orderitem> getOrderItemsByOrderId(Integer orderId);
+
+    Integer countOrder(OrderQueryParams orderQueryParams);
+
+    List<Order> getOrders(OrderQueryParams orderQueryParams);
 }
